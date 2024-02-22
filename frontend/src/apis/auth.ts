@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
-const backendURL: string | undefined = process.env.REACT_APP_BACKEND_URL;
+const backendURL: string = import.meta.env.VITE_REACT_APP_BACKEND_URL;
 
 export const register = async (
   name: string,
