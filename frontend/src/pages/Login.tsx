@@ -55,7 +55,7 @@ const Login: FC = () => {
     }
   };
   return (
-    <div className="bg-grey-lighter min-h-screen flex flex-col">
+    <div className="bg-violet-100 min-h-screen flex flex-col">
       <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
         <img src={logo} alt="logo_website" className="w-40  self-center mb-5" />
         <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full border-4">
