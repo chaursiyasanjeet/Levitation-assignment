@@ -1,10 +1,21 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import logo from "../assets/logo.png";
+import AddProductForm from "../components/AddProductForm";
+import { ToastContainer, toast } from "react-toastify";
 
 const Addproduct: FC = () => {
+  const [popupForm, setPopupForm] = useState(false);
+  const setPopupStatusFromChild = () => {
+    setPopupForm(false);
+    toast.success("Product Added");
+  };
   return (
     <section className="py-3 h-screen w-screen bg-violet-100">
-      <div className="w-full  mb-12  px-4 mx-auto mt-1">
+      <div
+        className={`w-full  mb-12  px-4 mx-auto mt-1 ${
+          popupForm ? "blur-sm" : ""
+        }`}
+      >
         <img
           src={logo}
           alt="logo_website"
@@ -22,6 +33,9 @@ const Addproduct: FC = () => {
                 <button
                   className="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                   type="button"
+                  onClick={() => {
+                    setPopupForm(true);
+                  }}
                 >
                   + Add Item
                 </button>
@@ -74,6 +88,25 @@ const Addproduct: FC = () => {
           </div>
         </div>
       </div>
+      <div
+        className={`absolute top-1/2 right-1/2 transform translate-x-1/2 -translate-y-1/2 shadow-2xl ${
+          popupForm ? "" : "hidden"
+        }`}
+      >
+        <AddProductForm setFormStatus={setPopupStatusFromChild} />
+      </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
     </section>
   );
 };
