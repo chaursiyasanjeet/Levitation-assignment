@@ -1,5 +1,6 @@
-import { FC, useState } from "react";
+import { FC, useState, useContext } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import ProductContext from "./context/productContext";
 interface AddProductFormProps {
   setFormStatus: () => void;
 }
@@ -10,6 +11,8 @@ const AddProductForm: FC<AddProductFormProps> = ({ setFormStatus }) => {
     quantity: string;
     rate: string;
   }>({ productName: "", quantity: "", rate: "" });
+
+  const { setProducts } = useContext(ProductContext);
 
   const validateProductDetails = () => {
     const errors: Record<string, string> = {};
@@ -40,7 +43,7 @@ const AddProductForm: FC<AddProductFormProps> = ({ setFormStatus }) => {
     } else {
       // Handle form submission logic here
       console.log("Form submitted successfully");
-      console.log(productDetails);
+      setProducts((prev) => [...prev, productDetails]);
       setFormStatus();
       setProductDetails({ productName: "", quantity: "", rate: "" });
     }
@@ -128,7 +131,7 @@ const AddProductForm: FC<AddProductFormProps> = ({ setFormStatus }) => {
       </form>
       <ToastContainer
         position="top-right"
-        autoClose={5000}
+        autoClose={1500}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

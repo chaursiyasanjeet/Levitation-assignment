@@ -1,18 +1,31 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Addproduct from "./pages/Addproduct";
+import ProductContext from "./components/context/productContext";
+
+interface Product {
+  productName: string;
+  quantity: string;
+  rate: string;
+}
 
 const App: FC = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+
+  const productContextValue = { products, setProducts };
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/addproduct" element={<Addproduct />} />
-      </Routes>
-    </BrowserRouter>
+    <ProductContext.Provider value={productContextValue}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/addproduct" element={<Addproduct />} />
+        </Routes>
+      </BrowserRouter>
+    </ProductContext.Provider>
   );
 };
 
