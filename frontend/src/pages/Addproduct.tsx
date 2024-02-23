@@ -16,9 +16,11 @@ const Addproduct: FC = () => {
 
   const { products } = useContext(ProductContext);
 
-  const setPopupStatusFromChild = (): void => {
+  const setPopupStatusFromChild = (sucess: boolean): void => {
     setPopupForm(false);
-    toast.success("Product Added");
+    if (sucess) {
+      toast.success("Product Added");
+    }
   };
 
   const redirect = useNavigate();
@@ -68,20 +70,20 @@ const Addproduct: FC = () => {
             <table className="items-center bg-transparent w-full border-collapse ">
               <thead>
                 <tr>
-                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                    Product Name
+                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-s  border-l-0 border-r-0 whitespace-nowrap font-bold text-left">
+                    Product
                   </th>
-                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                    Rate
-                  </th>
-                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-s  border-l-0 border-r-0 whitespace-nowrap font-bold text-left">
                     Quantity
                   </th>
-                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                    Total
+                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-s  border-l-0 border-r-0 whitespace-nowrap font-bold text-left">
+                    Rate
                   </th>
-                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
+                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-s  border-l-0 border-r-0 whitespace-nowrap font-bold text-left">
                     GST
+                  </th>
+                  <th className="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-s border-l-0 border-r-0 whitespace-nowrap font-bold text-left">
+                    Total
                   </th>
                 </tr>
               </thead>
@@ -93,17 +95,21 @@ const Addproduct: FC = () => {
                       <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
                         {item.productName}
                       </th>
-                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
-                        {item.rate}
-                      </td>
                       <td className="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                         {item.quantity}
                       </td>
-                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                        {item.rate * item.quantity}
+                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
+                        {item.rate}
                       </td>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                        {(0.18 * item.rate * item.quantity).toFixed(2)}
+                        INR {(0.18 * item.rate * item.quantity).toFixed(2)}
+                      </td>
+                      <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                        INR{" "}
+                        {(
+                          0.18 * item.rate * item.quantity +
+                          item.rate * item.quantity
+                        ).toFixed(2)}
                       </td>
                     </tr>
                   ))

@@ -2,7 +2,7 @@ import { FC, useState, useContext } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import ProductContext from "./context/productContext";
 interface AddProductFormProps {
-  setFormStatus: () => void;
+  setFormStatus: (success: boolean) => void;
 }
 
 const AddProductForm: FC<AddProductFormProps> = ({ setFormStatus }) => {
@@ -41,10 +41,8 @@ const AddProductForm: FC<AddProductFormProps> = ({ setFormStatus }) => {
         toast.error(error);
       });
     } else {
-      // Handle form submission logic here
-      console.log("Form submitted successfully");
       setProducts((prev) => [...prev, productDetails]);
-      setFormStatus();
+      setFormStatus(true);
       setProductDetails({ productName: "", quantity: "", rate: "" });
     }
   };
@@ -122,11 +120,20 @@ const AddProductForm: FC<AddProductFormProps> = ({ setFormStatus }) => {
           />
         </div>
         <button
-          className="w-full bg-indigo-500 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300"
+          className="w-full  bg-indigo-500 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300"
           type="submit"
           onClick={handleSumbit}
         >
           Add Product
+        </button>
+        <button
+          className="w-full mt-2 bg-indigo-400 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300"
+          onClick={(e) => {
+            e.preventDefault();
+            setFormStatus(false);
+          }}
+        >
+          Cancel
         </button>
       </form>
       <ToastContainer

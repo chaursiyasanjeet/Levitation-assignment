@@ -4,6 +4,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Addproduct from "./pages/Addproduct";
 import ProductContext from "./components/context/productContext";
+import GeneratePdf from "./pages/GeneratePdf";
 
 interface Product {
   productName: string;
@@ -23,6 +24,7 @@ const App: FC = () => {
           <Route path="/" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/addproduct" element={<Addproduct />} />
+          <Route path="/generate_pdf" element={<GeneratePdf />} />
         </Routes>
       </BrowserRouter>
     </ProductContext.Provider>
