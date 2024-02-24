@@ -8,12 +8,16 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const cors_1 = __importDefault(require("cors"));
+const path_1 = __importDefault(require("path"));
+const auth_1 = __importDefault(require("./routes/auth"));
+const generateInvoice_1 = __importDefault(require("./routes/generateInvoice"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)({ origin: "*" }));
+app.set("view engine", "ejs");
 app.use(body_parser_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 dotenv_1.default.config();
-const auth_1 = __importDefault(require("./routes/auth"));
+app.use(express_1.default.static(path_1.default.join(__dirname, "/public")));
 app.get("/", (req, res) => {
     res.status(200).json({
         service: "Backend server",
@@ -22,6 +26,7 @@ app.get("/", (req, res) => {
     });
 });
 app.use(auth_1.default);
+app.use(generateInvoice_1.default);
 //error handler middleware
 app.use((req, res, next) => {
     const err = new Error("page not found");

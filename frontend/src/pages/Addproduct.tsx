@@ -16,11 +16,8 @@ const Addproduct: FC = () => {
 
   const { products } = useContext(ProductContext);
 
-  const setPopupStatusFromChild = (sucess: boolean): void => {
+  const setPopupStatusFromChild = (): void => {
     setPopupForm(false);
-    if (sucess) {
-      toast.success("Product Added");
-    }
   };
 
   const redirect = useNavigate();
@@ -140,7 +137,7 @@ const Addproduct: FC = () => {
       </button>
       <ToastContainer
         position="top-right"
-        autoClose={1500}
+        autoClose={1000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

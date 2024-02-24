@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style.css" />
+    <title>Your Invoice</title>
+  </head>
+  <body>
+    <section class="py-3 h-screen w-screen flex flex-col items-center">
+      <div class="w-full mb-12 px-4 mx-auto mt-1">
+        <div class="w-full flex justify-between">
+          <h3 class="font-bold text-2xl text-blueGray-700">Invoice Genrator</h3>
+          <img src="/logo.png" alt="logo_website" class="w-40" />
+        </div>
+
+        <div
+          class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 rounded h-max"
+        >
+          <div class="rounded-t mb-0 px-4 py-3 border-0">
+            <div class="flex flex-wrap items-center">
+              <div
+                class="relative w-screen px-4 max-w-screen flex-grow flex-1"
+              ></div>
+              <div
+                class="relative w-full px-4 max-w-full flex-grow flex-1 text-right"
+              ></div>
+            </div>
+          </div>
+
+          <div class="block w-full overflow-x-auto">
+            <table
+              class="items-center bg-transparent w-full border-collapse border-b-2 border-gray-300"
+            >
+              <thead>
+                <tr>
+                  <th
+                    class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-gray-300 py-3 text-s border-l-0 border-r-0 whitespace-nowrap font-bold text-left"
+                  >
+                    Product
+                  </th>
+                  <th
+                    class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-s border-l-0 border-r-0 whitespace-nowrap font-bold text-left"
+                  >
+                    Quantity
+                  </th>
+                  <th
+                    class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-s border-l-0 border-r-0 whitespace-nowrap font-bold text-left"
+                  >
+                    Rate
+                  </th>
+                  <th
+                    class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-s border-l-0 border-r-0 whitespace-nowrap font-bold text-left"
+                  >
+                    Total
+                  </th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% productall.forEach(product => { %>
+                <tr>
+                  <th
+                    class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700"
+                  >
+                    <%= product.productName %>
+                  </th>
+                  <td
+                    class="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap font-semibold p-4 text-blue-500"
+                  >
+                    <%= product.quantity %>
+                  </td>
+                  <td
+                    class="border-t-0 px-6 align-middle border-l-0 border-r-0 font-semibold text-xs whitespace-nowrap p-4"
+                  >
+                    <%= product.rate %>
+                  </td>
+                  <td
+                    class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs font-semibold whitespace-nowrap p-4"
+                  >
+                    <%= `INR ${product.quantity * product.rate}` %>
+                  </td>
+                </tr>
+                <% }); %>
+              </tbody>
+            </table>
+            <table class="w-3/6 mt-5 absolute right-0 md:w-2/6">
+              <tbody>
+                <tr class="mb-5">
+                  <td class="font-bold">Total</td>
+                  <td class="text-right">INR <%= total.toFixed(2) %></td>
+                </tr>
+                <tr class="mb-5">
+                  <td>GST</td>
+                  <td class="text-right">18%</td>
+                </tr>
+                <tr class="border-t-2 border-b-2 border-grey-500">
+                  <td class="font-bold">Grand Total</td>
+                  <td class="text-right">INR <%= totalWithGst.toFixed(2) %></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <h1 class="absolute left-10 bottom-[25vh] font-semibold text-xs">
+        Valid until: 23/02/24
+      </h1>
+      <div
+        class="bg-black w-[95vw] h-[15vh] md:h-[14vh] text-white flex flex-col justify-center rounded-[50px] px-10 py-2 absolute bottom-2"
+      >
+        <span class="text-xs">Term and Conditions</span>
+        <p class="text-xs">
+          we are happy to supply any further information you may need and trust
+          that you can call us to fill your order. which will receive our prompt
+          and careful attention
+        </p>
+      </div>
+    </section>
+  </body>
+</html>

@@ -1,8 +1,13 @@
-import { FC, useContext, useEffect } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import logo from "../assets/logo.png";
 import { ToastContainer, toast } from "react-toastify";
 import ProductContext from "../components/context/productContext";
 import { useNavigate } from "react-router-dom";
+import {
+  generateInvoice,
+  getInvoice,
+  downloadInvoice,
+} from "../apis/generateInvoice";
 
 interface Product {
   productName: string;
@@ -12,15 +17,31 @@ interface Product {
 
 const GeneratePdf: FC = () => {
   const { products } = useContext(ProductContext);
-
+  const [dwonloadPDF, setDownloadPDf] = useState(false);
   const redirect = useNavigate();
 
-  // useEffect(() => {
-  //   if (products.length === 0) {
-  //     redirect("/addproduct");
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (products.length === 0) {
+      redirect("/addproduct");
+    }
+  }, []);
 
+  const handleGenratePdf = async () => {
+    const result = await generateInvoice(products);
+    if (result.status === "SUCCESS") {
+      const result2 = await getInvoice();
+      console.log(result2);
+      setDownloadPDf(true);
+    }
+  };
+
+  const handleDownloadPdf = async () => {
+    const url = `${
+      import.meta.env.VITE_REACT_APP_BACKEND_URL
+    }/downloadInvoice/invoice1708759813017`;
+    console.log(url);
+    window.location.href = url;
+  };
   return (
     <section className="py-3 h-screen w-screen flex flex-col items-center">
       <div className="w-full  mb-12  px-4 mx-auto mt-1">
@@ -133,17 +154,30 @@ const GeneratePdf: FC = () => {
         </div>
       </div>
 
-      <button className="bg-blue-700 text-white text-xl mt-12 font-bold px-2 text-center w-2/4 md:w-1/4 h-10 rounded-xl md:mt-20 md:text-2xl">
+      <button
+        className={`bg-blue-700 text-white text-xl mt-12 font-bold px-2 text-center w-2/4 md:w-1/4 h-10 rounded-xl md:mt-20 md:text-2xl  ${
+          dwonloadPDF ? "hidden" : ""
+        }`}
+        disabled={false}
+        onClick={() => {
+          handleGenratePdf();
+        }}
+      >
         Generate Pdf
       </button>
-      <button className="bg-blue-700 text-white text-xl mt-5 font-bold px-2 text-center w-2/4 md:w-1/4 h-10 rounded-xl md:text-2xl ">
+      <button
+        className={` bg-blue-700 text-white text-xl  font-bold px-2 text-center w-2/4 md:w-1/4 h-10 rounded-xl md:text-2xl ${
+          !dwonloadPDF ? "hidden mt-5" : "mt-20"
+        }`}
+        onClick={handleDownloadPdf}
+      >
         Download Pdf
       </button>
 
-      <h1 className="absolute left-10 bottom-[25vh] font-semibold text-xs">
+      <h1 className="relative  right-[30vw] md:right-[40vw] font-semibold text-xs mt-5">
         Valid until: {new Date().toLocaleDateString()}
       </h1>
-      <div className="bg-black w-[95vw] h-[15vh] md:h-[14vh] text-white flex flex-col justify-center rounded-[50px] px-10 py-2 absolute bottom-2">
+      <div className="bg-black w-[95vw] h-[15vh] md:h-[14vh] text-white flex flex-col justify-center rounded-[50px] px-10 py-2 mt-10">
         <span className="text-xs">Term and Conditions</span>
         <p className="text-xs ">
           we are happy to supply any further information you may need and trust

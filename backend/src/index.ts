@@ -3,15 +3,19 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import cors from "cors";
+import path from "path";
+import auth from "./routes/auth";
+import generateInvoice from "./routes/generateInvoice";
 
 const app: Application = express();
 app.use(cors({ origin: "*" }));
 
+app.set("view engine", "ejs");
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 dotenv.config();
-
-import auth from "./routes/auth";
+app.use(express.static(path.join(__dirname, "/public")));
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({
@@ -22,6 +26,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use(auth);
+app.use(generateInvoice);
 
 //error handler middleware
 app.use((req: Request, res: Response, next: NextFunction) => {
@@ -39,7 +44,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 });
 
 //server listening
-const mongoDBUrl = process.env.MONGODB_URL;
+const mongoDBUrl: string | undefined = process.env.MONGODB_URL;
 
 if (!mongoDBUrl) {
   throw new Error("MongoDB URL is not defined.");
@@ -54,4 +59,4 @@ mongoose
       console.log(`Server is running on http://localhost:${process.env.PORT}`);
     });
   })
-  .catch((err) => console.log(err));
+  .catch((err: any) => console.log(err));

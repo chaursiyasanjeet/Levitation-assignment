@@ -22,7 +22,7 @@ export const register = async (
     if (error.response) {
       return error.response.data;
     }
-    // Handle other error cases if needed
+
     return { error: "An error occurred" };
   }
 };
@@ -40,7 +40,7 @@ export const login = async (email: string, password: string): Promise<any> => {
     if (error.response) {
       return error.response.data;
     }
-    // Handle other error cases if needed
+
     return { error: "An error occurred" };
   }
 };
