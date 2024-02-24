@@ -96,7 +96,10 @@ const GeneratePdf: FC = () => {
                         {item.rate}
                       </td>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs font-semibold whitespace-nowrap p-4">
-                        INR {(item.rate * item.quantity).toFixed(2)}
+                        INR{" "}
+                        {((item.rate as any) * (item.quantity as any)).toFixed(
+                          2
+                        )}
                       </td>
                     </tr>
                   ))
