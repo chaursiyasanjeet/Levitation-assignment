@@ -42,7 +42,7 @@ const AddProductForm: FC<AddProductFormProps> = ({ setFormStatus }) => {
       });
     } else {
       setProducts((prev) => [...prev, productDetails]);
-      setFormStatus(true);
+      setFormStatus();
       setProductDetails({ productName: "", quantity: "", rate: "" });
     }
   };

@@ -99,13 +99,18 @@ const Addproduct: FC = () => {
                         {item.rate}
                       </td>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                        INR {(0.18 * item.rate * item.quantity).toFixed(2)}
+                        INR{" "}
+                        {(
+                          0.18 *
+                          (item.rate as any) *
+                          (item.quantity as any)
+                        ).toFixed(2)}
                       </td>
                       <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                         INR{" "}
                         {(
-                          0.18 * item.rate * item.quantity +
-                          item.rate * item.quantity
+                          0.18 * (item.rate as any) * (item.quantity as any) +
+                          (item.rate as any) * (item.quantity as any)
                         ).toFixed(2)}
                       </td>
                     </tr>
