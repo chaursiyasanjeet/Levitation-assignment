@@ -3,11 +3,7 @@ import logo from "../assets/logo.png";
 import { ToastContainer, toast } from "react-toastify";
 import ProductContext from "../components/context/productContext";
 import { useNavigate } from "react-router-dom";
-import {
-  generateInvoice,
-  getInvoice,
-  downloadInvoice,
-} from "../apis/generateInvoice";
+import { generateInvoice, getInvoice } from "../apis/generateInvoice";
 
 interface Product {
   productName: string;
@@ -18,6 +14,8 @@ interface Product {
 const GeneratePdf: FC = () => {
   const { products } = useContext(ProductContext);
   const [dwonloadPDF, setDownloadPDf] = useState(false);
+  const [fileName, setFileName] = useState();
+  const [buttonStatus, setButtonStatus] = useState(false);
   const redirect = useNavigate();
 
   useEffect(() => {
@@ -27,18 +25,23 @@ const GeneratePdf: FC = () => {
   }, []);
 
   const handleGenratePdf = async () => {
+    setButtonStatus(true);
     const result = await generateInvoice(products);
     if (result.status === "SUCCESS") {
       const result2 = await getInvoice();
       console.log(result2);
-      setDownloadPDf(true);
+      if (result2.status === "SUCCESS") {
+        setFileName(result2.fileName);
+        setDownloadPDf(true);
+        toast.success(result2.messages);
+      }
     }
   };
 
   const handleDownloadPdf = async () => {
     const url = `${
       import.meta.env.VITE_REACT_APP_BACKEND_URL
-    }/downloadInvoice/invoice1708759813017`;
+    }/downloadInvoice/${fileName}`;
     console.log(url);
     window.location.href = url;
   };
@@ -155,10 +158,10 @@ const GeneratePdf: FC = () => {
       </div>
 
       <button
-        className={`bg-blue-700 text-white text-xl mt-12 font-bold px-2 text-center w-2/4 md:w-1/4 h-10 rounded-xl md:mt-20 md:text-2xl  ${
+        className={` text-white text-xl mt-12 font-bold px-2 text-center w-2/4 md:w-1/4 h-10 rounded-xl md:mt-20 md:text-2xl  ${
           dwonloadPDF ? "hidden" : ""
-        }`}
-        disabled={false}
+        } ${buttonStatus ? "bg-blue-200" : "bg-blue-700"}`}
+        disabled={buttonStatus}
         onClick={() => {
           handleGenratePdf();
         }}
