@@ -100,7 +100,10 @@ router.get("/invoice/:id", async (req: Request, res: Response) => {
 router.post("/getInvoice", isLogged, async (req: Request, res: Response) => {
   try {
     const id = req.userExist._id;
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    });
     const page = await browser.newPage();
 
     const invoiceUrl = `${req.protocol}://${req.get("host")}/invoice/${id}`;

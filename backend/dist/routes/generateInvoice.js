@@ -90,7 +90,10 @@ router.get("/invoice/:id", (req, res) => __awaiter(void 0, void 0, void 0, funct
 router.post("/getInvoice", isLogged_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.userExist._id;
-        const browser = yield puppeteer_1.default.launch();
+        const browser = yield puppeteer_1.default.launch({
+            headless: true,
+            args: ["--no-sandbox", "--disable-setuid-sandbox"],
+        });
         const page = yield browser.newPage();
         const invoiceUrl = `${req.protocol}://${req.get("host")}/invoice/${id}`;
         yield page.goto(invoiceUrl, {
